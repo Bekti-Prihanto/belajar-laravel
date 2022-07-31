@@ -1,6 +1,8 @@
 <?php
 
+use App\Models\Post;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\PostController;
 
 /*
 |--------------------------------------------------------------------------
@@ -28,59 +30,6 @@ Route::get('/about', function () {
     ]);
 });
 
-Route::get('/blog', function () {
-    $blog_posts = [
-        [
-            'title' => 'First Post',
-            'slug' => 'first-post',
-            'author' => 'Bekti Prihanto',
-            'body' => 'Lorem ipsum dolor sit amet consectetur adipisicing elit. 
-            Maiores rerum, deserunt consequuntur consequatur sint minima eos 
-            debitis voluptatem eaque amet veniam odio cum, 
-            hic possimus vero quasi voluptate! Iure, quis.'
-        ],
-        [
-            'title' => 'Second Post',
-            'slug' => 'second-post',
-            'author' => 'Ivana Intan Paramita',
-            'body' => 'Lorem ipsum dolor sit amet consectetur adipisicing elit. 
-            Maiores rerum, deserunt consequuntur consequatur sint minima eos 
-            debitis voluptatem eaque amet veniam odio cum, 
-            hic possimus vero quasi voluptate! Iure, quis.'
-        ],
-    ];
-    return view('posts', [
-        'title' => 'Posts',
-        'posts' => $blog_posts
-    ]);
-});
+Route::get('/posts', [PostController::class, 'index']);
 
-Route::get('/post/{slug}', function () {
-    $blog_posts = [
-        [
-            'title' => 'First Post',
-            'slug' => 'first-post',
-            'author' => 'Bekti Prihanto',
-            'body' => 'Lorem ipsum dolor sit amet consectetur adipisicing elit. 
-            Maiores rerum, deserunt consequuntur consequatur sint minima eos 
-            debitis voluptatem eaque amet veniam odio cum, 
-            hic possimus vero quasi voluptate! Iure, quis.'
-        ],
-        [
-            'title' => 'Second Post',
-            'slug' => 'second-post',
-            'author' => 'Ivana Intan Paramita',
-            'body' => 'Lorem ipsum dolor sit amet consectetur adipisicing elit. 
-            Maiores rerum, deserunt consequuntur consequatur sint minima eos 
-            debitis voluptatem eaque amet veniam odio cum, 
-            hic possimus vero quasi voluptate! Iure, quis.'
-        ],
-    ];
-
-    $post = collect($blog_posts)->where('slug', request('slug'))->first();
-
-    return view('post', [
-        'title' => 'Posts',
-        'post' => $post
-    ]);
-});
+Route::get('/post/{slug}', [PostController::class, 'show']);
